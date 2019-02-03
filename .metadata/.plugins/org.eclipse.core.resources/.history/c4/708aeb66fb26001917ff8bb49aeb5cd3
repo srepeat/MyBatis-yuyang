@@ -1,0 +1,8 @@
+package com.atguigu.mybatis.bean;
+
+public enum EmpsStatus {
+
+	LOGIN(100,"用户登录"),LOGOUT(200,"用户退出"),ROMVER(300,"用户不存在");
+	
+	private Integer code;
+}

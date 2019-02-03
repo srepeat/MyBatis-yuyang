@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<typeInfoHistroy>
+<typeInfo handle="=MyBatis_01_HelloWorld/E:\/Elicpse\/jre\/lib\/rt.jar&lt;javax.security.auth.login(Configuration.class[Configuration" modifiers="1057" timestamp="1458093702000"/>
+<typeInfo handle="=MyBatis_01_HelloWorld/lib\/mybatis-3.2.7.jar&lt;org.apache.ibatis.session(Configuration.class[Configuration" modifiers="33" timestamp="1547715628968"/>
+<typeInfo handle="=MyBatis_05_ehcache/lib\/mybatis-3.2.7.jar&lt;org.apache.ibatis.cache(Cache.class[Cache" modifiers="1537" timestamp="1547715628968"/>
+<typeInfo handle="=MyBatis_01_HelloWorld/lib\/mybatis-3.2.7.jar&lt;org.apache.ibatis.type(JdbcType.class[JdbcType" modifiers="16433" timestamp="1547715628968"/>
+</typeInfoHistroy>

@@ -1,0 +1,5 @@
+package com.atguigu.mybatis.enu;
+
+public class MyEnumEmpStatusTypeHandler  {
+
+}

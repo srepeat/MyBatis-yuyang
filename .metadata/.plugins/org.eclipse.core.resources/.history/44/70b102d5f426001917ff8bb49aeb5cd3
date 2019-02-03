@@ -1,0 +1,12 @@
+package com.atguigu.mybatis.bean;
+
+import java.util.List;
+
+public class PageHe {
+	
+	private int start;
+	private int end;
+	private int count;
+	private List<Employee> emp;
+
+}

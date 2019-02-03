@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.atguigu.mybatis.dao.EmployeeMapperDynamic">
+ 
+ <!-- 
+• if:判断
+• choose (when, otherwise):分支选择；带了break的swtich-case
+	如果带了id就用id查，如果带了lastName就用lastName查;只会进入其中一个
+• trim 字符串截取(where(封装查询条件), set(封装修改条件))
+• foreach 遍历集合
+  -->
+ 
+ <!--  
+ 	public List<Employee> getEmpsByDynamicSql();
+ 	使用条件查询员工
+ 	
+ 	if条件判断
+ 		OGNL表达式
+ 		test：要判断的参数是否为空以及空字符串
+ 		好处就是使用这个参数然后对其传递参数值
+ 		
+ 	//查询条件SQL会出现的拼装问题!
+	1、如果要按照姓名查询的话就要在where后面加上 1=1 ,表示以面都是and xxx。
+	2、使用where标签，他可以去掉第一个开头的and/or  不能去掉最后
+ -->
+ <select id="getEmpsByDynamicSql" resultType="com.atguigu.mybatis.bean.Employee">
+	 select * from tbl_employee 
+	 <where>	
+			<if test="id!=null">
+			 	id=#{id}
+		 	</if>
+		 	<if test="lastName!=null &amp;&amp; lastName!=''">
+		 		and last_name like #{lastName}
+		 	</if>
+		 	<if test="email!=null and email.trim()!=&quot;&quot;">
+		 		and email=#{email}
+		 	</if> 
+		 	<!-- ognl会进行字符串与数字的转换判断  "0"==0 -->
+		 	<if test="gender=='男' or gender=='女'">
+		 	 	and gender=#{gender}
+		 	</if>
+	 </where>
+ </select>
+ 
+ 
+ 
+ <!-- 
+ public List<Employee> getEmpsByDynamicTrim(Employee employee); 
+ 
+ 
+ -->
+ <select id="getEmpsByDynamicTrim" resultType="com.atguigu.mybatis.bean.Employee">
+	select * from tbl_employee
+	 	<!-- 后面多出的and或者or where标签不能解决 
+	 	prefix="":前缀：trim标签体中是整个字符串拼串 后的结果。
+	 			prefix给拼串后的整个字符串加一个前缀 
+	 	prefixOverrides="":
+	 			前缀覆盖： 去掉整个字符串前面多余的字符
+	 	suffix="":后缀
+	 			suffix给拼串后的整个字符串加一个后缀 
+	 	suffixOverrides=""
+	 			后缀覆盖：去掉整个字符串后面多余的字符
+	 			
+	 	-->
+	 	<!-- 自定义字符串的截取规则 -->
+	 	<trim prefix="where" suffixOverrides="and">
+	 		<if test="id!=null">
+		 		id=#{id} and
+		 	</if>
+		 	<if test="lastName!=null &amp;&amp; lastName!=&quot;&quot;">
+		 		last_name like #{lastName} and
+		 	</if>
+		 	<if test="email!=null and email.trim()!=&quot;&quot;">
+		 		email=#{email} and
+		 	</if> 
+		 	<!-- ognl会进行字符串与数字的转换判断  "0"==0 -->
+		 	<if test="gender=='男' or gender=='女'">
+		 	 	gender=#{gender}
+		 	</if>
+		 </trim>
+ </select>
+ 
+ 
+ 
+ <!--  public List<Employee> getEmpsByDunamicChoose(Employee employee);  -->
+ 	<select id="getEmpsByDunamicChoose" resultType="com.atguigu.mybatis.bean.Employee">
+ 		select * from tbl_employee
+ 		<where>
+ 			<!-- 如果带了id就用id查，如果带了lastName就用lastName查;只会进入其中一个 -->
+ 			<choose>
+ 				<when test="id!=null">
+ 					id = #{id}
+ 				</when>
+ 				<when test="lastName !=null">
+ 					last_name like #{lastName}
+ 				</when>
+ 				<when test="email!=null">
+ 					email=#{email}
+ 				</when>
+ 				<otherwise>
+ 					gender = '男'
+ 				</otherwise>
+ 			</choose>
+ 		</where>
+ 	</select>
+ 
+ 
+ <!--
+ public boolean getEmpsByDynamicUpdate(Employee employee);
+   -->
+<update id="getEmpsByDynamicUpdate">
+	update tbl_employee 
+	<!--
+	set一般情况使用 -->
+	<set>
+	<if test="lastName!=null">
+			last_name=#{lastName},
+		</if>
+		<if test="gender!=null">
+			gender=#{gender},	
+		</if>
+		<if test="email!=null">
+			email=#{email}
+		</if>
+		<where>
+			id = #{id}
+		</where>
+	</set> 
+	
+	<!-- 使用trim字符串方式 -->
+		<!-- <trim prefix="set" suffixOverrides=",">
+			<if test="lastName!=null">
+			last_name=#{lastName},
+			</if>
+			<if test="gender!=null">
+				gender=#{gender},	
+			</if>
+			<if test="email!=null">
+				email=#{email}
+			</if>
+			<where>
+				id = #{id}
+			</where>
+		</trim> -->
+</update> 
+   
+   <!-- public List<Employee> getEmpsByDynamicForEach(List<Integer> ids); -->
+ <select id="getEmpsByDynamicForEach" resultType="com.atguigu.mybatis.bean.Employee" >
+ 	select * from tbl_employee
+ 	<!--
+ 		collection：指定要遍历的集合：
+ 			list类型的参数会特殊处理封装在map中，map的key就叫list
+ 		item：将当前遍历出的元素赋值给指定的变量
+ 		separator:每个元素之间的分隔符
+ 		open：遍历出所有结果拼接一个开始的字符
+ 		close:遍历出所有结果拼接一个结束的字符
+ 		index:索引。遍历list的时候是index就是索引，item就是当前值
+ 				      遍历map的时候index表示的就是map的key，item就是map的值
+ 		
+ 		#{变量名}就能取出变量的值也就是当前遍历出的元素
+	  -->
+ 	<foreach collection="ids" index="item_id" separator="," open="where id in(" close=")">
+ 		#{item_id}
+ 	</foreach>
+ </select>
+ 
+ <!-- public void addEmps(@Param("emps")List<Employee> employees);
+ 	使用批量插入数据Foreach
+  -->
+ <insert id="addEmps">
+ 	insert into tbl_employee(last_name,gender,email,d_id) values
+ 	<!-- 这里的item变量为一个对象，用对象调用遍历对象的属性 -->
+ 	<foreach collection="emps" item="emp" separator=",">
+	 	(#{emp.lastName},#{emp.gender},#{emp.email},#{emp.dept.id})
+ 	</foreach>
+ </insert>
+ 
+ <!-- MySQL下批量保存：可以foreach遍历   mysql支持values(),(),()语法 -->
+ <!-- <insert id="addEmps">
+ 	<foreach collection="emps" item="emp" separator=";">
+ 		insert into tbl_employee(last_name,gender,email,d_id)
+ 		values (#{emp.lastName},#{emp.gender},#{emp.email},#{emp.dept.id})
+ 	</foreach>
+ </insert> -->
+ 
+ 	<!-- 两个内置参数：
+	 	不只是方法传递过来的参数可以被用来判断，取值。。。
+	 	mybatis默认还有两个内置参数：
+	 	_parameter:代表整个参数
+	 		单个参数：_parameter就是这个参数
+	 		多个参数：参数会被封装为一个map；_parameter就是代表这个map
+	 	
+	 	_databaseId:如果配置了databaseIdProvider标签。
+	 		_databaseId就是代表当前数据库的别名oracle
+	  -->
+	 <!-- public List<Employee> getEmpsInnesParam(Employee employee); --> 
+	<select id="getEmpsInnesParam" resultType="com.atguigu.mybatis.bean.Employee" >
+	<!-- Bild标签: 使用NGOL表达式将参数绑定在一个变量上，使用时引用变量即可-->
+	<bind name="_lastName" value="'%'+lastName+'%'"/>
+		<if test="_databaseId=='mysql'">
+			<!-- 使用include应用公用抽取sql -->
+			<include refid="findAll"></include>
+			<if test="_parameter!=null">
+				<where>
+					last_name like #{_lastName}
+				</where>
+			</if>
+		</if>
+	
+		<if test="_databaseId=='oracle'">
+			
+		</if>
+	</select>  
+ 
+ 	<!-- 
+	  	抽取可重用的sql片段。方便后面引用 
+	  	1、sql抽取：经常将要查询的列名，或者插入用的列名抽取出来方便引用
+	  	2、include来引用已经抽取的sql：
+	  	3、include还可以自定义一些property，sql标签内部就能使用自定义的属性
+	  			include-property：取值的正确方式${prop},
+	  			#{不能使用这种方式}
+	  -->
+ 
+ 	<sql id="findAll">
+ 		select * from tbl_employee
+ 	</sql>
+ 
+ </mapper>

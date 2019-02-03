@@ -1,0 +1,4 @@
+#Tomcat publish data
+#Tue Jan 29 14:40:02 GMT+08:00 2019
+org.eclipse.jst.jee.server\:/binary\:E\:\\SSH\\workspace_shangguigu\\MyBatis_06_ssm\\WebContent\\WEB-INF\\lib\\spring-web-4.0.0.RELEASE.jar=E\:\\Program Files\\apache-tomcat-7.0.78\\webapps\\MyBatis_06_ssm\\WEB-INF\\lib\\spring-web-4.0.0.RELEASE.jar
+org.eclipse.jst.jee.server\:MyBatis_06_ssm=E\:\\Program Files\\apache-tomcat-7.0.78\\webapps\\MyBatis_06_ssm

@@ -1,0 +1,9 @@
+package com.atguigu.mybatis.enu;
+
+import org.apache.ibatis.type.TypeHandler;
+
+import com.atguigu.mybatis.bean.EmpsStatus;
+
+public class MyEnumEmpStatusTypeHandler implements TypeHandler<EmpsStatus> {
+
+}

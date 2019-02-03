@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?> 
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd"> 
+<mapper namespace="com.atguigu.mybatis.dao.EmployeeMapper"> 
+<!-- 
+namespace:名称空间;使用接口式的编程与sql进行绑定
+id：唯一标识
+resultType：返回值类型
+#{id}：传入的参数
+public Employee getEmpById(Integer id);
+建议使用整个类路径为返回，避免别名混乱：com.atguigu.mybatis.bean.Employee
+databaseId:所使用的数据库，别名
+ -->
+ <!-- public Map<Integer, Employee> getIdByresultMap(String lastName); -->
+ <select id="getIdByresultMap" resultType="com.atguigu.mybatis.bean.Employee">
+ 	select * from tbl_employee where last_name like #{lastName}
+ </select>
+ 
+ <!--public Map<Integer, Employee> getEmpByLastNameLikeReturnMap(String lastName);  -->
+<select id="getEmpByLastNameLikeReturnMap" resultType="com.atguigu.mybatis.bean.Employee">
+	select * from tbl_employee where last_name like #{lastName}
+</select>
+ 
+ 
+ <!-- public Map<Integer, Object> getMapByIdResult(Integer id); -->
+ <select id="getMapByIdResult" resultType="map">
+ 	select * from tbl_employee where id=#{id}
+ </select>
+ 
+ <!-- public List<Employee> getLikeBylastName(String lastName); -->
+ <select id="getLikeBylastName" resultType="com.atguigu.mybatis.bean.Employee">
+ 	select * from tbl_employee where last_name like #{lastName}
+ </select>
+ 
+ <!-- 
+ 
+ public Employee getListById(List<Integer> idList);
+  -->
+<select id="getListById" resultType="com.atguigu.mybatis.bean.Employee">
+	select * from tbl_employee where id in(
+	<foreach collection="list" item="id" separator=",">
+		#{id}
+	</foreach>
+	)
+</select>
+ 
+<!--
+public void getListByIds(Map<String,Object> map);
+  -->
+  
+<select id="getMapById" resultType="com.atguigu.mybatis.bean.Employee">
+	select * from tbl_employee where id=${id} and last_name=#{lastName};
+</select>
+ 
+ 
+<!--  
+public Employee getNameById(@Param("id")Integer id ,@Param("lastName") String lastName); 
+使用id和name 查询数据表
+-->
+
+<select id="getNameById" resultType="com.atguigu.mybatis.bean.Employee">
+	select * from tbl_employee where id=#{id} and last_name = #{lastName};
+</select>
+ 
+ 
+ <!-- 如果其中没有指定sql执行的数据库，首先查找没有指定数据的sql -->
+	<select id="getEmpById" resultType="com.atguigu.mybatis.bean.Employee">    
+	<!-- 当数据中的字段与bean实体类的字段对应不上时，采取别名的方式与bean的属性相同即可 -->
+		<!-- select id,last_name lastName,gender,email from tbl_employee where id = #{id}  -->
+		select id,last_name,gender,email from tbl_employee where id = #{id} 
+	 </select> 
+	 
+	<select id="getEmpById" resultType="com.atguigu.mybatis.bean.Employee" databaseId="mysql">    
+	<!-- 当数据中的字段与bean实体类的字段对应不上时，采取别名的方式与bean的属性相同即可 -->
+		<!-- select id,last_name lastName,gender,email from tbl_employee where id = #{id}  -->
+		select id,last_name,gender,email from tbl_employee where id = #{id} 
+	 </select> 
+	 
+	 <!-- 插入
+	 public void addEmp(Employee employee);
+	 parameterType:参数类型，可以省略不写
+	 mysql支持自增主键，自增主键的获取，mybatis利用statement.getGenreateKeys();
+		 useGeneratedKeys:默认参数为false，未开启状态，使用主键自增(true)
+		 keyProperty:指定对应得主键，mybatis获取主键后将这个主键得参数与bean实体封装的参数对应绑定
+		 useGeneratedKeys="true" keyProperty="id"
+	  -->
+	  
+	 <insert id="addEmp" parameterType="com.atguigu.mybatis.bean.Employee"  
+	 useGeneratedKeys="true" keyProperty="id"> 
+	 	insert into tbl_employee(last_name,gender,email)
+	 	 values(#{lastName},#{gender},#{email})
+	 
+	 </insert>
+	 
+	 <!--更新
+	 public void updateEmp(Employee employee);
+	   -->
+	 <update id="updateEmp">
+	 	update tbl_employee set last_name=#{lastName},gender=#{gender},email=#{email} where id = #{id};
+	 
+	 </update>
+	
+	<!-- 删除
+	public void deleteEmp(Integer id);	
+	 -->
+	 <delete id="deleteEmp">
+	 	delete from tbl_employee where id = #{id};
+	 </delete>
+ </mapper>

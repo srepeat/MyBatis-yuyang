@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ <mapper namespace="com.atguigu.mybatis.dao.EmployeeMapperPlus">
+ <!-- 自定义结果集:两者只能使用其中一种，不能同时使用
+ 	resultType="com.atguigu.mybatis.bean.Employee"
+ 	resultMap="自定义id"
+ 		type:要封装绑定得JavaBean实体类型,简化每次都要直接写类全路径
+ 		id：唯一标识，方便调用
+-->
+<resultMap type="com.atguigu.mybatis.bean.Employee" id="MyEmployee">
+	<!--
+	主键：指定主键列的封装规则==>id定义主键会底层有优化；
+		column:数据库中列表的字段
+		property：JavaBean中对于属性
+	  -->
+	<id column="id" property="id"/>
+	<!-- 定义普通列封装规则 -->
+	<result column="last_name" property="lastName"/>
+	<!-- 其他列mybatis也会自动封装，只要写resultMap就把全部的映射规则都写上 -->
+	<result column="email" property="email"/>
+	<result column="gender" property="gender"/>
+</resultMap>  
+
+ 
+ <!-- public Employee getEmpById(Integer id); -->
+<select id="getEmpById" resultMap="MyEmployee">
+	select * from tbl_employee where  id = #{id}
+</select>
+
+<!-- 
+	场景一：
+		查询Employee的同时查询员工对应的部门
+		Employee===Department
+		一个员工有与之对应的部门信息；
+		id  last_name  gender    d_id     did  dept_name (private Department dept;)
+ -->
+ 
+<resultMap type="com.atguigu.mybatis.bean.Employee" id="MyEmpDept">
+	<id column="id" property="id"/>
+	<!-- 查询的column与别名一致 -->
+	<result column="last_name" property="lastName"/>
+	<result column="sex" property="gender"/>
+	<result column="email" property="email"/>
+	<!-- 获取部门表的属性 -->
+	<!-- 联合查询：级联封装属性 -->
+	<result column="did" property="dept.id"/>
+	<result column="dept_name" property="dept.deptName"/>
+</resultMap>
+
+<!-- association:使用association定义关联的单个对象的封装规则 -->
+<resultMap type="com.atguigu.mybatis.bean.Employee" id="MyEmpDept2">
+	<id column="id" property="id"/>
+	<!-- 查询的column与别名一致 -->
+	<result column="last_name" property="lastName"/>
+	<result column="sex" property="gender"/>
+	<result column="email" property="email"/>
+<!--
+	association:使用association定义关联的单个对象的封装规则
+		可以指定封装联合javaBean属性
+		property：指定哪个是联合的属性
+		javaType：指定这个属性的对象类型【不可省略】
+  -->
+<association property="dept" javaType="com.atguigu.mybatis.bean.Department">
+	<id column="did" property="id"/>
+	<result column="dept_name" property="deptName"/>
+</association>
+</resultMap>
+
+
+<!--
+	public Employee getEmpAndDept(Integer id);
+  -->
+  <!-- 通过员工id来查询部门id 主次关联分清楚-->
+  <select id="getEmpAndDept" resultMap="MyEmpDept">
+  	SELECT e.id id,e.last_name lastName,e.gender sex,e.email email ,e.d_id d_id,
+  	d.id did,d.dept_name dept_name
+  	FROM tbl_employee e,tbl_dept d 
+  	WHERE e.d_id = d.id AND e.id = #{id} 	
+  </select>
+
+
+<!-- 使用association进行分步查询：
+		1、先按照员工id查询员工信息
+		2、根据查询员工信息中的d_id值去部门表查出部门信息
+		3、部门设置到员工中；
+	 -->
+<resultMap type="com.atguigu.mybatis.bean.Employee" id="MyEmpByStep">
+	<id column="id" property="id"/>
+	<!-- 查询的column与别名一致 -->
+	<result column="last_name" property="lastName"/>
+	<result column="gender" property="gender"/>
+	<result column="email" property="email"/>
+	<!-- 
+	association:定义关联对象的封装规则
+		property:对象所所关联的那个属性
+		select：表明当前属性调用select指定方法查出的结果
+		column：指定将那一列的值传递给这个方法的参数
+		流程：使用select指定的方法（传入column指定的这列参数的值）查出对象，并封装给property指定的属性
+	 -->
+<association property="dept" 
+			select="com.atguigu.mybatis.dao.DepatmentMapper.getDeptById" 
+			column="d_id">
+</association>
+</resultMap>
+
+<!--  public Employee getEmpByIdStep(Integer id);-->
+<select id="getEmpByIdStep" resultMap="MyEmpByStep">
+	select * from tbl_employee where id = #{id}
+</select>
+
+<!--
+	可以使用研制加载数据：也就是按取所需的方式
+	在分布查询的基础之上，只需要全局配置两个设置项
+	lazyLoadingEnabled:开启懒加载(全局性设置懒加载。如果设为‘false’，则所有相关联的都会被初始化加载。)
+	aggressiveLazyLoading:关闭全局加载(当设置为‘true’的时候，懒加载的对象可能被任何懒属性全部加载。否则，每个属性都按需加载)
+  -->
+
+<!-- public Employee getDeptByIdStep(Integer deptId); -->
+<select id="getDeptByIdStep" resultType="com.atguigu.mybatis.bean.Employee">
+	select id,last_name lastName,gender,email from tbl_employee where d_id=${deptId}
+</select>
+
+
+ </mapper>

@@ -1,0 +1,52 @@
+package com.atguigu.mybatis.dao;
+
+import java.sql.Statement;
+import java.util.Properties;
+
+import org.apache.ibatis.executor.statement.StatementHandler;
+import org.apache.ibatis.plugin.Interceptor;
+import org.apache.ibatis.plugin.Intercepts;
+import org.apache.ibatis.plugin.Invocation;
+import org.apache.ibatis.plugin.Plugin;
+import org.apache.ibatis.plugin.Signature;
+import org.junit.Ignore;
+
+@Intercepts({
+	
+	@Signature(type=StatementHandler.class,method="parameterize",args=Statement)
+})	
+
+public class MyFirstPlugs implements Interceptor {
+
+	/**
+	 * 拦截器，放行
+	 */
+	@Override
+	public Object intercept(Invocation invocation) throws Throwable {
+		// TODO Auto-generated method stub
+		System.out.println("first.......invocation..:"+invocation);
+		Object proceed = invocation.proceed();
+		return proceed;
+	}
+
+	/**
+	 * 插件方法
+	 */
+	@Override
+	public Object plugin(Object target) {
+		// TODO Auto-generated method stub
+		System.out.println("First.....Plugin:"+target);
+		Object wrap = Plugin.wrap(target, this);
+		return wrap;
+	}
+
+	/**
+	 * 读取配置属性方法
+	 */
+	@Override
+	public void setProperties(Properties properties) {
+		// TODO Auto-generated method stub
+		System.out.println("读取到的配置信息......."+properties);
+	}
+
+}

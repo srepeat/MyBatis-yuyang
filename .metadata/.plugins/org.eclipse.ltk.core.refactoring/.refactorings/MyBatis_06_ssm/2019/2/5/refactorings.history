@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Move element &apos;PageHe.java&apos; to &apos;MyBatis_09_other/src/com.atguigu.mybatis.bean&apos;&#x0D;&#x0A;- Original project: &apos;MyBatis_06_ssm&apos;&#x0D;&#x0A;- Destination element: &apos;MyBatis_09_other/src/com.atguigu.mybatis.bean&apos;&#x0D;&#x0A;- Original element: &apos;com.atguigu.mybatis.bean.PageHe.java&apos;&#x0D;&#x0A;- Update references to refactored element" description="Move compilation unit" destination="=MyBatis_09_other/src&lt;com.atguigu.mybatis.bean" element1="/src&lt;com.atguigu.mybatis.bean{PageHe.java" files="0" flags="589830" folders="0" id="org.eclipse.jdt.ui.move" patterns="*" policy="org.eclipse.jdt.ui.moveResources" qualified="false" references="true" stamp="1549116903123" units="1" version="1.0"/>
+</session>

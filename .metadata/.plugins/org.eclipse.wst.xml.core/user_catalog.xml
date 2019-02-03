@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
+  <uri name="http://mybatis.org/dtd/mybatis-3-config.dtd" uri="file:///D:/BaiduNetdiskDownload/尚硅谷%20-%20MyBatis视频教程（国内首套：源码级讲授的MyBatis视频）/课件&amp;代码/jar/mybatis-3-config.dtd"/>
+  <uri name="http://mybatis.org/dtd/mybatis-3-mapper.dtd" uri="file:///D:/BaiduNetdiskDownload/尚硅谷%20-%20MyBatis视频教程（国内首套：源码级讲授的MyBatis视频）/课件&amp;代码/jar/mybatis-3-mapper.dtd"/>
+</catalog>
