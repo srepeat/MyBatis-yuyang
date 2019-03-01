@@ -1,6 +1,0 @@
-package com.atguigu.mybatis.bean;
-
-public enum EmpsStatus {
-
-	LOGIN(100,"用户登录"),LOGOUT(2,"用户退出"),ROMVER(300,"");
-}

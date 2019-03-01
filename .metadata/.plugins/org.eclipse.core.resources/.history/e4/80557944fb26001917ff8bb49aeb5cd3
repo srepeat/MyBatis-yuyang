@@ -1,6 +1,0 @@
-package com.atguigu.mybatis.bean;
-
-public enum EmpsStatus {
-
-	LOGIN(100,"ÓÃ»§µÇÂ¼"),LOGOUT,ROMVER;
-}
