@@ -1,13 +1,12 @@
 package com.atguigu.mybatis.controller;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.atguigu.mybatis.bean.Employee;
 import com.atguigu.mybatis.service.EmployeeService;
@@ -34,11 +33,12 @@ public class EmployeeController {
 	
 	//查询修改id跳转修改页面
 	@RequestMapping("/findAll")
-	public String findById(Integer id) {
+	public String findById(Integer id,Model model) {
 		System.out.println(id);
 		Employee employee = employeeService.getFindById(id);
-		Map map = new HashMap<>();
-		map.put("emps", employee);
+		/*Map map = new HashMap<>();
+		map.put("emps", employee);*/
+		model.addAttribute("emps", employee);
 		System.out.println(employee);
 		return "edit";
 	}

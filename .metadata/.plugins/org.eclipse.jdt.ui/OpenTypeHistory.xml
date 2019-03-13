@@ -6,8 +6,8 @@
 <typeInfo handle="=MyBatis_01_HelloWorld/lib\/mybatis-3.2.7.jar&lt;org.apache.ibatis.type(JdbcType.class[JdbcType" modifiers="16433" timestamp="1547715628968"/>
 <typeInfo handle="=MyBatis_01_HelloWorld/lib\/mybatis-3.2.7.jar&lt;org.apache.ibatis.type(TypeHandler.class[TypeHandler" modifiers="1537" timestamp="1547715628968"/>
 <typeInfo handle="=atcrowdfunding-common/D:\/repository\/org\/springframework\/spring-web\/4.0.0.RELEASE\/spring-web-4.0.0.RELEASE.jar&lt;org.springframework.web.filter(CharacterEncodingFilter.class[CharacterEncodingFilter" modifiers="33" timestamp="1549189516068"/>
-<typeInfo handle="=atcrowdfunding-manager/src\/main\/java&lt;com.atguigu.atcrowdfunding.service{RoleService.java[RoleService" modifiers="513" timestamp="1551012362391"/>
-<typeInfo handle="=atcrowdfunding-manager/src\/main\/java&lt;com.atguigu.atcrowdfunding.service{PermissionService.java[PermissionService" modifiers="513" timestamp="1550149440632"/>
+<typeInfo handle="=atcrowdfunding-manager/src\/main\/java&lt;com.atguigu.atcrowdfunding.service{RoleService.java[RoleService" modifiers="513" timestamp="1551432455448"/>
+<typeInfo handle="=atcrowdfunding-manager/src\/main\/java&lt;com.atguigu.atcrowdfunding.service{PermissionService.java[PermissionService" modifiers="513" timestamp="1551432455447"/>
 <typeInfo handle="=atcrowdfunding-web/D:\/repository\/org\/springframework\/spring-webmvc\/4.0.0.RELEASE\/spring-webmvc-4.0.0.RELEASE.jar&lt;org.springframework.web.servlet(HandlerInterceptor.class[HandlerInterceptor" modifiers="1537" timestamp="1549189516913"/>
 <typeInfo handle="=atcrowdfunding-web/D:\/repository\/org\/springframework\/spring-webmvc\/4.0.0.RELEASE\/spring-webmvc-4.0.0.RELEASE.jar&lt;org.springframework.web.servlet(HandlerAdapter.class[HandlerAdapter" modifiers="1537" timestamp="1549189516913"/>
 </typeInfoHistroy>

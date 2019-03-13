@@ -11,8 +11,8 @@
 <body> 
 	<!-- 上传图片是需要指定属性 enctype="multipart/form-data" -->
 	<form id="itemForm"	action="${pageContext.request.contextPath }/update" method="post">
-		修改商品信息：<input type="text" name="id" value="${requestScope.emps.id}" /> 
-		<table width="100%" border=1>
+		<%-- 修改商品信息：<input type="hidden" name="id" value="${requestScope.emps.id}" /> --%>
+		<table width="100%" border=1> 
 			<tr>
 				<td>姓名</td>
 				<td><input type="text" name="lastName" value="${requestScope.emps.lastName}" /></td>
